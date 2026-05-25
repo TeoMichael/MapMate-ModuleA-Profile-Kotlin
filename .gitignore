@@ -1,4 +1,5 @@
 .gradle/
+.kotlin/
 .idea/
 build/
 app/build/
@@ -7,4 +8,3 @@ local.properties
 *.apk
 *.aab
 *.keystore
-

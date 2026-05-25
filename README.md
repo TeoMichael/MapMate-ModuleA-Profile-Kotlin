@@ -59,7 +59,7 @@ app/src/main/java/com/teomichael/mapmate/profile/
 Command line build:
 
 ```powershell
-$env:ANDROID_HOME="C:\Users\admin\AppData\Local\Android\Sdk"
+$env:ANDROID_HOME="<path-to-Android-Sdk>"
 .\gradlew.bat testDebugUnitTest
 .\gradlew.bat :app:assembleDebug
 ```

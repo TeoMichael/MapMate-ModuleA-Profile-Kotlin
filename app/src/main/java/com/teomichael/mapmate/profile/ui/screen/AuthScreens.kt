@@ -31,7 +31,7 @@ fun LoginScreen(
     onSignUpClick: () -> Unit
 ) {
     var email by remember { mutableStateOf("michael@student.edu") }
-    var password by remember { mutableStateOf("password123") }
+    var password by remember { mutableStateOf("") }
 
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
@@ -141,4 +141,3 @@ fun OtpVerificationScreen(
         }
     }
 }
-
