@@ -4,27 +4,36 @@
 
 Module A - Profile Involve is now a backend-first Firebase serverless module. The previous Compose demo UI has been removed/postponed. The current priority is the data/service structure that can support profile, friends, privacy, notifications, activity history, and streaks.
 
+Current Firebase setup for local development:
+
+- Firebase project display name: `MAPMATE`
+- Firebase project ID: `mapmate-69a2`
+- Android Firebase app package: `com.mapmate`
+- Email/Password Authentication is enabled.
+- Cloud Firestore is created.
+- `app/google-services.json` is required locally and is not committed in this step.
+
 ## Current module shape
 
 ```text
 app/src/main/java/com/teomichael/mapmate/profile/
   data/model/        Firebase-ready data classes
   data/repository/   Repository interfaces for auth, profile, friends, privacy, notifications, activities, and streaks
-  data/firebase/     Firebase repository skeletons without credentials or runtime Firebase setup
+  data/firebase/     Firebase Auth and Cloud Firestore repository implementations
   domain/usecase/    Validation-aware service/use-case layer
   validation/        Input and relationship validation rules
 ```
 
 The Android app keeps only a minimal launcher Activity so it remains buildable as an application module. Production UI will be integrated later by the group and should call the Module A use cases instead of talking directly to Firebase.
 
-## Planned Firebase services
+## Firebase services
 
-- Firebase Authentication for email/password accounts and email verification.
-- Cloud Firestore for profiles, friend requests, friendships, blocks, notifications, recent activities, and friend streaks.
-- Cloud Functions for server-side validation, relationship updates, notification creation, activity creation, and scheduled streak updates.
-- Firebase Security Rules for direct client reads/writes that are safe to expose.
+- Firebase Authentication is used for email/password accounts and email verification.
+- Cloud Firestore is used for profiles, friend requests, friendships, blocks, notifications, recent activities, and friend streaks.
+- Cloud Functions are still planned for server-side validation, relationship updates, notification creation, activity creation, and scheduled streak updates.
+- Firebase Security Rules are still needed for direct client reads/writes that are safe to expose.
 
-No `google-services.json`, API keys, service account files, or real Firebase project credentials are included in this repository.
+No custom backend server is used. Module A calls Firebase directly through repository classes. No service account files, `.env` files, keystores, APK/AAB outputs, or secret files should be committed.
 
 ## Data flow
 
@@ -50,9 +59,9 @@ User edits profile
   -> Cloud Function onProfileUpdated creates activity
 ```
 
-## Why repository interfaces come before Firebase SDK wiring
+## Why repository interfaces still matter
 
-The project can compile without Firebase credentials because the Firebase classes are currently skeletons. This keeps the university module easy to build on any machine while making the intended architecture clear. When the group creates a real Firebase project, the skeleton classes can be filled in with Firebase Auth and Firestore calls.
+The app now has Firebase SDK wiring, but the repository interfaces still keep Firebase details behind stable Module A contracts. The final UI should depend on use cases or interfaces, not on Firebase SDK classes directly. This makes the module easier to test and easier to adjust if Security Rules or Cloud Functions move more behavior server-side later.
 
 ## Implementation boundaries
 

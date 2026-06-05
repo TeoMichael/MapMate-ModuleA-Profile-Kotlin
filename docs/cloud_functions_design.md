@@ -2,6 +2,8 @@
 
 This file describes planned Cloud Functions for the Firebase serverless version of Module A. It is a design document, not deployed function code.
 
+Current status: Module A has Android repository classes that call Firebase Authentication and Cloud Firestore directly. These calls are useful for local integration and emulator testing, but the functions below are still needed for trusted relationship enforcement, automatic notifications, authoritative activity history, and scheduled streak updates.
+
 ## onAuthUserCreated
 
 Trigger:
@@ -26,6 +28,8 @@ Why server-side:
 
 - Prevents users from creating a profile under another UID.
 - Gives every authenticated account a consistent profile document.
+
+Temporary client behavior: `FirebaseAuthRepository.signUp` creates `users/{uid}` when Cloud Functions are not deployed yet.
 
 ## onFriendRequestCreated
 
@@ -71,6 +75,8 @@ Why server-side:
 
 - Prevents fake friendships.
 - Keeps request, friendship, notification, activity, and streak data consistent.
+
+Temporary client behavior: `FirebaseFriendRepository.acceptFriendRequest` creates the friendship and related activity records in a Firestore transaction for basic integration testing. The group should replace or protect this flow with Cloud Functions and Security Rules before production-style testing.
 
 ## onUserBlocked
 

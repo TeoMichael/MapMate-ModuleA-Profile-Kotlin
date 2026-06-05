@@ -2,6 +2,8 @@
 
 This file describes the planned Firestore Security Rules. It is not a deployed `firestore.rules` file yet.
 
+The current Android module can call Firebase directly through repository classes for local integration testing. Those client-side checks are not a substitute for Firestore Security Rules. Before this module is merged into a production-style app, the rules below should be written, tested with the Firebase Emulator Suite, and deployed with the group Firebase project.
+
 ## Goals
 
 Rules should prevent users from:
@@ -45,6 +47,8 @@ Write:
 
 Cloud Functions should create the first `users/{uid}` document after Firebase Auth user creation.
 
+Current client behavior: `FirebaseAuthRepository.signUp` also creates a default `users/{uid}` document if one is missing. This keeps the module usable before Cloud Functions are deployed, but server-side profile creation is still the preferred trusted design.
+
 ## friendRequests/{requestId}
 
 Create:
@@ -63,6 +67,8 @@ Update:
 - Status transitions should be limited to `PENDING -> ACCEPTED` or `PENDING -> REJECTED`.
 
 Because fake friendships are risky, accepting a request should be finalized by Cloud Functions.
+
+Current client behavior: `FirebaseFriendRepository.acceptFriendRequest` has a basic transaction for integration testing. Security Rules and Cloud Functions still need to prevent forged relationship writes.
 
 ## friendships/{friendshipId}
 

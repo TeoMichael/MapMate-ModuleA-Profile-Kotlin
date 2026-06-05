@@ -1,8 +1,9 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
-layout.buildDirectory.set(rootProject.layout.projectDirectory.dir(".gradle/local-build/app"))
+layout.buildDirectory.set(rootProject.layout.projectDirectory.dir(".gradle/firebase-build/app"))
 
 android {
     namespace = "com.teomichael.mapmate.profile"
@@ -14,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.teomichael.mapmate.profile"
+        applicationId = "com.mapmate"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
@@ -30,6 +31,11 @@ android {
 }
 
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")

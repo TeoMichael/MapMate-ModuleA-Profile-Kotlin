@@ -2,6 +2,14 @@
 
 This schema is intentionally simple for a university project. It uses mostly top-level collections because they are easier to query, explain, secure, and test in a small module. Subcollections are also possible, for example `users/{uid}/notifications/{notificationId}`, but this project chooses top-level collections for clarity.
 
+Current Firebase project for local development:
+
+- Display name: `MAPMATE`
+- Project ID: `mapmate-69a2`
+- Android app package: `com.mapmate`
+
+The Android app uses Firebase Authentication and Cloud Firestore directly through Module A repository classes. Firestore Security Rules and Cloud Functions are still needed before treating this schema as production-secure.
+
 ## users/{uid}
 
 Stores public and private profile settings for one authenticated user.
@@ -9,7 +17,7 @@ Stores public and private profile settings for one authenticated user.
 | Field | Type | Notes |
 |---|---|---|
 | `uid` | string | Firebase Auth UID. Must match the document ID. |
-| `email` | string | User email from Firebase Auth. |
+| `email` | string | Normalized user email from Firebase Auth. |
 | `name` | string | Display name. Required. |
 | `avatarUrl` | string | Optional profile image URL. |
 | `basicInfo` | string | Short profile description. |
@@ -21,6 +29,8 @@ Stores public and private profile settings for one authenticated user.
 ## friendRequests/{requestId}
 
 Stores pending and completed friend request records.
+
+The current repository can create and update these documents directly for basic integration testing. Production enforcement should move acceptance side effects to Cloud Functions so clients cannot create fake friendships.
 
 | Field | Type | Notes |
 |---|---|---|
@@ -57,6 +67,8 @@ Stores block relationships.
 
 Stores profile-module notifications.
 
+The current repository creates a small number of friend-related notifications during client-side integration flows. The planned production design should create notification documents from Cloud Functions.
+
 | Field | Type | Notes |
 |---|---|---|
 | `uid` | string | Owner of the notification. |
@@ -69,6 +81,8 @@ Stores profile-module notifications.
 ## activities/{activityId}
 
 Stores recent profile and relationship activity.
+
+The current repository writes basic activity records for profile and relationship actions. Cloud Functions should own authoritative activity creation later.
 
 | Field | Type | Notes |
 |---|---|---|

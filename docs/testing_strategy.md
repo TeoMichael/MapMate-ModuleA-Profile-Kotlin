@@ -13,6 +13,8 @@ These tests run with:
 .\gradlew.bat testDebugUnitTest
 ```
 
+The project now also includes Firebase Android SDK dependencies for Authentication and Cloud Firestore. `app/google-services.json` is required locally for Android builds, but it is not committed in this step.
+
 ## What the current tests cover
 
 Validation tests cover:
@@ -46,7 +48,7 @@ High priority:
 
 Medium priority:
 
-- Firebase repository tests against the Firebase Emulator Suite after real Firebase dependencies are added.
+- Firebase repository tests against the Firebase Emulator Suite now that Firebase dependencies are wired.
 
 Low priority:
 
@@ -54,7 +56,7 @@ Low priority:
 
 ## Firebase Emulator Suite plan
 
-When the team wires real Firebase SDKs, use the Firebase Emulator Suite before touching a real Firebase project:
+Use the Firebase Emulator Suite before production-style testing against the real Firebase project:
 
 1. Start Auth, Firestore, and Functions emulators.
 2. Seed test users.
